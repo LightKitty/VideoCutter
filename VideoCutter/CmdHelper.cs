@@ -44,5 +44,14 @@ namespace VideoCutter
             //p.Close();
             return p;
         }
+
+        public static Process CmdCommandV2(string command)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = "cmd.exe";
+            process.StartInfo.Arguments = " /k " + command;
+            process.Start();
+            return process;
+        }
     }
 }

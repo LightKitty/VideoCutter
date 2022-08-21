@@ -176,7 +176,7 @@ namespace VideoCutter
             TimeSpan timeSpan = GetTimeSpan();
             string cutVideoPath = $"{Path.GetDirectoryName(videoPath)}\\{videoStartDateTime.Add(timeSpan).ToString("yyyyMMdd_HHmmss")}.mp4";
             string comCommand = $"ffmpeg -i \"{videoPath}\" -vcodec copy -acodec copy -ss {startTimeTextBox.Text} -to {endTimeTextBox.Text} \"{cutVideoPath}\" &exit";
-            CmdHelper.CmdCommand(comCommand);
+            CmdHelper.CmdCommandV2(comCommand);
             //MessageBox.Show("开始裁剪视频");
         }
 
