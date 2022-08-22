@@ -16,6 +16,8 @@ namespace VideoCutter
     {
         string videoPath = null;
         DateTime videoStartDateTime = new DateTime();
+        string startTimeText = string.Empty;
+        string endTimeText = string.Empty;
         //DateTime cutVideoStartDateTime = new DateTime();
         //long cutStartTime = 0;
         //long cutEndTime = 0;
@@ -109,8 +111,13 @@ namespace VideoCutter
 
         private void vlcControl_TimeChanged(object sender, Vlc.DotNet.Core.VlcMediaPlayerTimeChangedEventArgs e)
         {
-            string timeNowStr = RevertToTime(e.NewTime);
-            int videoProcess = Convert.ToInt32(((double)e.NewTime / vlcControl.Length) * videoTrackBar.Maximum);
+            SetVideoTrackBar(e.NewTime);
+        }
+
+        private void SetVideoTrackBar(long time)
+        {
+            string timeNowStr = RevertToTime(time);
+            int videoProcess = Convert.ToInt32(((double)time / vlcControl.Length) * videoTrackBar.Maximum);
             this.BeginInvoke(new Action(() =>
             {
                 if (this.IsHandleCreated)
@@ -159,30 +166,137 @@ namespace VideoCutter
             }
         }
 
-        private void startTimeButton_Click(object sender, EventArgs e)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)//取消方向键对控件的焦点的控件，用自己自定义的函数处理各个方向键的处理函数
         {
-            string timeNowStr = RevertToTime(vlcControl.Time);
-            startTimeTextBox.Text = timeNowStr;
+            switch (keyData)
+            {
+                case Keys.Up:
+                    UpKey();
+                    return true;//不继续处理
+                case Keys.Down:
+                    DownKey();
+                    return true;
+                case Keys.Left:
+                    LeftKey();
+                    return true;
+                case Keys.Control | Keys.Left:
+                    CtrlLeftKey();
+                    return true;
+                case Keys.Shift | Keys.Left:
+                    ShiftLeftKey();
+                    return true;
+                case Keys.Right:
+                    RightKey();
+                    return true;
+                case Keys.Control | Keys.Right:
+                    CtrlRightKey();
+                    return true;
+                case Keys.Shift | Keys.Right:
+                    ShiftRightKey();
+                    return true;
+                case Keys.Space:
+                    SpaceKey();
+                    return true;
+                case Keys.Enter:
+                    StartCut();
+                    return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void endTimeButton_Click(object sender, EventArgs e)
+        private void SpaceKey()
         {
-            string timeNowStr = RevertToTime(vlcControl.Time);
-            endTimeTextBox.Text = timeNowStr;
+            vlcControl.Pause();
         }
 
-        private void cutButton_Click(object sender, EventArgs e)
+        private void UpKey()
         {
-            TimeSpan timeSpan = GetTimeSpan();
-            string cutVideoPath = $"{Path.GetDirectoryName(videoPath)}\\{videoStartDateTime.Add(timeSpan).ToString("yyyyMMdd_HHmmss")}.mp4";
-            string comCommand = $"ffmpeg -i \"{videoPath}\" -vcodec copy -acodec copy -ss {startTimeTextBox.Text} -to {endTimeTextBox.Text} \"{cutVideoPath}\" &exit";
-            CmdHelper.CmdCommandV2(comCommand);
-            //MessageBox.Show("开始裁剪视频");
+            
+        }
+
+        private void DownKey()
+        {
+            
+        }
+
+        private void LeftKey()
+        {
+            VlcTimeAdd(-10000);
+        }
+
+        private void CtrlLeftKey()
+        {
+            VlcTimeAdd(-60000);
+        }
+
+        private void ShiftLeftKey()
+        {
+            VlcTimeAdd(-1000);
+        }
+
+        private void RightKey()
+        {
+            VlcTimeAdd(10000);
+        }
+
+        private void CtrlRightKey()
+        {
+            VlcTimeAdd(60000);
+        }
+
+        private void ShiftRightKey()
+        {
+            VlcTimeAdd(1000);
+        }
+
+        private void VlcTimeAdd(long addTime)
+        {
+            long timeAdd = vlcControl.Time + addTime;
+            if (timeAdd < 0) timeAdd = 0;
+            if (timeAdd > vlcControl.Length) timeAdd = vlcControl.Length;
+            vlcControl.Time = timeAdd;
+            SetVideoTrackBar(vlcControl.Time);
+        }
+
+
+        private void SetStartTimeText()
+        {
+            startTimeText = RevertToTime(vlcControl.Time);
+            ShowTip($"入点 {startTimeText}");
+        }
+
+        private void SetEndTimeText()
+        {
+            endTimeText = RevertToTime(vlcControl.Time);
+            ShowTip($"出点 {endTimeText}");
+        }
+
+        private void StartCut()
+        {
+            try
+            {
+                TimeSpan timeSpan = GetTimeSpan();
+                string cutVideoPath = $"{Path.GetDirectoryName(videoPath)}\\{videoStartDateTime.Add(timeSpan).ToString("yyyyMMdd_HHmmss")}.mp4";
+                string comCommand = $"ffmpeg -i \"{videoPath}\" -vcodec copy -acodec copy -ss {startTimeText} -to {endTimeText} \"{cutVideoPath}\" &exit";
+                CmdHelper.CmdCommandV2(comCommand);
+                ShowTip($"开始裁剪 {startTimeText} - {endTimeText}");
+            }
+            catch (Exception ex)
+            {
+                ShowTip($"裁剪错误：{ex.Message}");
+            }
+            
+        }
+
+        private void ShowTip(string text)
+        {
+            toolStripStatusLabel.Text = text;
         }
 
         private TimeSpan GetTimeSpan()
         {
-            string[] timeStrArr = startTimeTextBox.Text.Trim().Split(':');
+            string[] timeStrArr = startTimeText.Trim().Split(':');
             int[] timeIntArr = new int[3];
             for (int i = 0; i < timeStrArr.Length; i++)
             {
@@ -191,6 +305,21 @@ namespace VideoCutter
             int day = timeIntArr[0] / 24;
             if (timeIntArr[0] > 0) timeIntArr[0] %= 24;
             return new TimeSpan(day, timeIntArr[0], timeIntArr[1], timeIntArr[2]);
+        }
+
+        private void 入点ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetStartTimeText();
+        }
+
+        private void 出点ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetEndTimeText();
+        }
+
+        private void 裁剪ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StartCut();
         }
     }
 }

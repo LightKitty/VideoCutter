@@ -28,30 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.打开文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.入点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.出点ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.裁剪ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vlcControl = new Vlc.DotNet.Forms.VlcControl();
             this.videoTrackBar = new System.Windows.Forms.TrackBar();
             this.timeNowLabel = new System.Windows.Forms.Label();
             this.timeTotalLable = new System.Windows.Forms.Label();
-            this.startTimeTextBox = new System.Windows.Forms.TextBox();
-            this.endTimeTextBox = new System.Windows.Forms.TextBox();
-            this.startTimeButton = new System.Windows.Forms.Button();
-            this.endTimeButton = new System.Windows.Forms.Button();
-            this.cutButton = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vlcControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoTrackBar)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.文件ToolStripMenuItem});
+            this.文件ToolStripMenuItem,
+            this.入点ToolStripMenuItem,
+            this.出点ToolStripMenuItem,
+            this.裁剪ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1280, 25);
@@ -73,6 +75,27 @@
             this.打开文件ToolStripMenuItem.Text = "打开文件";
             this.打开文件ToolStripMenuItem.Click += new System.EventHandler(this.打开文件ToolStripMenuItem_Click);
             // 
+            // 入点ToolStripMenuItem
+            // 
+            this.入点ToolStripMenuItem.Name = "入点ToolStripMenuItem";
+            this.入点ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.入点ToolStripMenuItem.Text = "入点";
+            this.入点ToolStripMenuItem.Click += new System.EventHandler(this.入点ToolStripMenuItem_Click);
+            // 
+            // 出点ToolStripMenuItem
+            // 
+            this.出点ToolStripMenuItem.Name = "出点ToolStripMenuItem";
+            this.出点ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.出点ToolStripMenuItem.Text = "出点";
+            this.出点ToolStripMenuItem.Click += new System.EventHandler(this.出点ToolStripMenuItem_Click);
+            // 
+            // 裁剪ToolStripMenuItem
+            // 
+            this.裁剪ToolStripMenuItem.Name = "裁剪ToolStripMenuItem";
+            this.裁剪ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.裁剪ToolStripMenuItem.Text = "裁剪";
+            this.裁剪ToolStripMenuItem.Click += new System.EventHandler(this.裁剪ToolStripMenuItem_Click);
+            // 
             // vlcControl
             // 
             this.vlcControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -81,7 +104,7 @@
             this.vlcControl.BackColor = System.Drawing.Color.Black;
             this.vlcControl.Location = new System.Drawing.Point(0, 28);
             this.vlcControl.Name = "vlcControl";
-            this.vlcControl.Size = new System.Drawing.Size(1280, 724);
+            this.vlcControl.Size = new System.Drawing.Size(1280, 720);
             this.vlcControl.Spu = -1;
             this.vlcControl.TabIndex = 1;
             this.vlcControl.Text = "vlcControl";
@@ -108,7 +131,7 @@
             // 
             this.timeNowLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.timeNowLabel.AutoSize = true;
-            this.timeNowLabel.Location = new System.Drawing.Point(12, 755);
+            this.timeNowLabel.Location = new System.Drawing.Point(12, 754);
             this.timeNowLabel.Name = "timeNowLabel";
             this.timeNowLabel.Size = new System.Drawing.Size(56, 17);
             this.timeNowLabel.TabIndex = 3;
@@ -119,109 +142,55 @@
             // 
             this.timeTotalLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.timeTotalLable.AutoSize = true;
-            this.timeTotalLable.Location = new System.Drawing.Point(1212, 755);
+            this.timeTotalLable.Location = new System.Drawing.Point(1212, 754);
             this.timeTotalLable.Name = "timeTotalLable";
             this.timeTotalLable.Size = new System.Drawing.Size(56, 17);
             this.timeTotalLable.TabIndex = 4;
             this.timeTotalLable.Text = "00:00:00";
             this.timeTotalLable.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // startTimeTextBox
+            // statusStrip1
             // 
-            this.startTimeTextBox.Location = new System.Drawing.Point(277, 805);
-            this.startTimeTextBox.Name = "startTimeTextBox";
-            this.startTimeTextBox.Size = new System.Drawing.Size(75, 23);
-            this.startTimeTextBox.TabIndex = 7;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 799);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1280, 22);
+            this.statusStrip1.TabIndex = 12;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // endTimeTextBox
+            // toolStripStatusLabel
             // 
-            this.endTimeTextBox.Location = new System.Drawing.Point(439, 805);
-            this.endTimeTextBox.Name = "endTimeTextBox";
-            this.endTimeTextBox.Size = new System.Drawing.Size(75, 23);
-            this.endTimeTextBox.TabIndex = 8;
-            // 
-            // startTimeButton
-            // 
-            this.startTimeButton.Location = new System.Drawing.Point(221, 805);
-            this.startTimeButton.Name = "startTimeButton";
-            this.startTimeButton.Size = new System.Drawing.Size(50, 23);
-            this.startTimeButton.TabIndex = 9;
-            this.startTimeButton.Text = "入点";
-            this.startTimeButton.UseVisualStyleBackColor = true;
-            this.startTimeButton.Click += new System.EventHandler(this.startTimeButton_Click);
-            // 
-            // endTimeButton
-            // 
-            this.endTimeButton.Location = new System.Drawing.Point(383, 805);
-            this.endTimeButton.Name = "endTimeButton";
-            this.endTimeButton.Size = new System.Drawing.Size(50, 23);
-            this.endTimeButton.TabIndex = 10;
-            this.endTimeButton.Text = "出点";
-            this.endTimeButton.UseVisualStyleBackColor = true;
-            this.endTimeButton.Click += new System.EventHandler(this.endTimeButton_Click);
-            // 
-            // cutButton
-            // 
-            this.cutButton.Location = new System.Drawing.Point(535, 805);
-            this.cutButton.Name = "cutButton";
-            this.cutButton.Size = new System.Drawing.Size(50, 23);
-            this.cutButton.TabIndex = 11;
-            this.cutButton.Text = "裁剪";
-            this.cutButton.UseVisualStyleBackColor = true;
-            this.cutButton.Click += new System.EventHandler(this.cutButton_Click);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 16);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(102, 21);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(15, 796);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 43);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
+            this.toolStripStatusLabel.Text = "就绪";
             // 
             // PlayerForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1280, 884);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.cutButton);
-            this.Controls.Add(this.endTimeButton);
-            this.Controls.Add(this.startTimeButton);
-            this.Controls.Add(this.endTimeTextBox);
-            this.Controls.Add(this.startTimeTextBox);
+            this.ClientSize = new System.Drawing.Size(1280, 821);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.timeTotalLable);
             this.Controls.Add(this.timeNowLabel);
             this.Controls.Add(this.videoTrackBar);
             this.Controls.Add(this.vlcControl);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PlayerForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.Text = "视频裁剪助手";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vlcControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoTrackBar)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -236,13 +205,11 @@
         private System.Windows.Forms.Label timeNowLabel;
         private System.Windows.Forms.Label timeTotalLable;
         private System.Windows.Forms.ToolStripMenuItem 打开文件ToolStripMenuItem;
-        private System.Windows.Forms.TextBox startTimeTextBox;
-        private System.Windows.Forms.TextBox endTimeTextBox;
-        private System.Windows.Forms.Button startTimeButton;
-        private System.Windows.Forms.Button endTimeButton;
-        private System.Windows.Forms.Button cutButton;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.ToolStripMenuItem 入点ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 出点ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 裁剪ToolStripMenuItem;
     }
 }
 
