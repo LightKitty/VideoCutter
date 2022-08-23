@@ -321,5 +321,10 @@ namespace VideoCutter
         {
             StartCut();
         }
+
+        private void vlcControl_MediaChanged(object sender, Vlc.DotNet.Core.VlcMediaPlayerMediaChangedEventArgs e)
+        {
+            this.Text = e?.NewMedia?.Title;
+        }
     }
 }
