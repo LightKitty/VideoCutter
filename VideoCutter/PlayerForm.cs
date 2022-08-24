@@ -18,6 +18,7 @@ namespace VideoCutter
         DateTime videoStartDateTime = new DateTime();
         string startTimeText = string.Empty;
         string endTimeText = string.Empty;
+        long? lastTime = null;
         //DateTime cutVideoStartDateTime = new DateTime();
         //long cutStartTime = 0;
         //long cutEndTime = 0;
@@ -67,6 +68,11 @@ namespace VideoCutter
                 videoStartDateTime = GetDateTimeFromFileName(openFileDialog.FileName);
                 vlcControl.SetMedia(new FileInfo(openFileDialog.FileName));
                 vlcControl.Play();
+                if (lastTime > 0)
+                {
+                    vlcControl.Time = (long)lastTime;
+                    ShowTip("已恢复到上次播放进度");
+                }
             }
         }
 
@@ -324,7 +330,23 @@ namespace VideoCutter
 
         private void vlcControl_MediaChanged(object sender, Vlc.DotNet.Core.VlcMediaPlayerMediaChangedEventArgs e)
         {
-            this.Text = e?.NewMedia?.Title;
+            string title = e?.NewMedia?.Title;
+            this.Text = title;
+
+            if(!string.IsNullOrEmpty(title))
+            {
+                lastTime = VideoPlayTimeHelper.GetVideoPlayTime(title);
+            }
+        }
+
+        private void PlayerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //记录视频播放时间
+            string title = vlcControl?.GetCurrentMedia()?.Title;
+            if(!string.IsNullOrEmpty(title))
+            {
+                VideoPlayTimeHelper.SaveVideoPlayTime(title, vlcControl.Time);
+            }
         }
     }
 }
