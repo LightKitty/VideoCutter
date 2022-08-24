@@ -28,6 +28,16 @@ namespace VideoCutter
             InitializeComponent();
         }
 
+        public PlayerForm(string[] args)
+        {
+            InitializeComponent();
+
+            if (args?.Length > 0)
+            {
+                PlayVideo(args.First());
+            }
+        }
+
         private void vlcControl1_VlcLibDirectoryNeeded(object sender, Vlc.DotNet.Forms.VlcLibDirectoryNeededEventArgs e)
         {
             var currentAssembly = Assembly.GetEntryAssembly();
@@ -65,13 +75,20 @@ namespace VideoCutter
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 videoPath = openFileDialog.FileName;
-                videoStartDateTime = GetDateTimeFromFileName(openFileDialog.FileName);
-                vlcControl.SetMedia(new FileInfo(openFileDialog.FileName));
-                vlcControl.Play();
-                ToLastTime(); //恢复播放进度
+                PlayVideo(videoPath);
             }
         }
 
+        //播放视频
+        private void PlayVideo(string videoPath)
+        {
+            videoStartDateTime = GetDateTimeFromFileName(videoPath);
+            vlcControl.SetMedia(new FileInfo(videoPath));
+            vlcControl.Play();
+            ToLastTime(); //恢复播放进度
+        }
+
+        //恢复播放进度
         private void ToLastTime()
         {
             if (lastTime > 0)

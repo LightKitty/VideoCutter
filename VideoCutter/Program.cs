@@ -12,11 +12,11 @@ namespace VideoCutter
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PlayerForm());
+            Application.Run(new PlayerForm(args));
         }
     }
 }
