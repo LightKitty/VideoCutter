@@ -68,11 +68,16 @@ namespace VideoCutter
                 videoStartDateTime = GetDateTimeFromFileName(openFileDialog.FileName);
                 vlcControl.SetMedia(new FileInfo(openFileDialog.FileName));
                 vlcControl.Play();
-                if (lastTime > 0)
-                {
-                    vlcControl.Time = (long)lastTime;
-                    ShowTip("已恢复到上次播放进度");
-                }
+                ToLastTime(); //恢复播放进度
+            }
+        }
+
+        private void ToLastTime()
+        {
+            if (lastTime > 0)
+            {
+                vlcControl.Time = (long)lastTime;
+                ShowTip("已恢复到上次播放进度");
             }
         }
 
