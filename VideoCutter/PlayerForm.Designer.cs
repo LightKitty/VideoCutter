@@ -41,6 +41,7 @@
             this.timeTotalLable = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.复制ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vlcControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.videoTrackBar)).BeginInit();
@@ -53,7 +54,8 @@
             this.文件ToolStripMenuItem,
             this.入点ToolStripMenuItem,
             this.出点ToolStripMenuItem,
-            this.裁剪ToolStripMenuItem});
+            this.裁剪ToolStripMenuItem,
+            this.复制ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1280, 25);
@@ -166,6 +168,13 @@
             this.toolStripStatusLabel.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabel.Text = "就绪";
             // 
+            // 复制ToolStripMenuItem
+            // 
+            this.复制ToolStripMenuItem.Name = "复制ToolStripMenuItem";
+            this.复制ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
+            this.复制ToolStripMenuItem.Text = "复制";
+            this.复制ToolStripMenuItem.Click += new System.EventHandler(this.复制ToolStripMenuItem_Click);
+            // 
             // PlayerForm
             // 
             this.AllowDrop = true;
@@ -212,6 +221,7 @@
         private System.Windows.Forms.ToolStripMenuItem 入点ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 出点ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 裁剪ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 复制ToolStripMenuItem;
     }
 }
 

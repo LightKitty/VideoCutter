@@ -19,6 +19,7 @@ namespace VideoCutter
         string startTimeText = string.Empty;
         string endTimeText = string.Empty;
         long? lastTime = null;
+        string comCommand = string.Empty;
         //DateTime cutVideoStartDateTime = new DateTime();
         //long cutStartTime = 0;
         //long cutEndTime = 0;
@@ -74,14 +75,14 @@ namespace VideoCutter
             };
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                videoPath = openFileDialog.FileName;
-                PlayVideo(videoPath);
+                PlayVideo(openFileDialog.FileName);
             }
         }
 
         //播放视频
         private void PlayVideo(string videoPath)
         {
+            this.videoPath = videoPath;
             videoStartDateTime = GetDateTimeFromFileName(videoPath);
             vlcControl.SetMedia(new FileInfo(videoPath));
             vlcControl.Play();
@@ -94,7 +95,7 @@ namespace VideoCutter
             if (lastTime > 0)
             {
                 vlcControl.Time = (long)lastTime;
-                ShowTip("已恢复到上次播放进度");
+                ShowTip($"已恢复到上次播放进度：{RevertToTime(vlcControl.Time)}");
             }
         }
 
@@ -306,7 +307,7 @@ namespace VideoCutter
             {
                 TimeSpan timeSpan = GetTimeSpan();
                 string cutVideoPath = $"{Path.GetDirectoryName(videoPath)}\\{videoStartDateTime.Add(timeSpan).ToString("yyyyMMdd_HHmmss")}.mp4";
-                string comCommand = $"ffmpeg -i \"{videoPath}\" -vcodec copy -acodec copy -ss {startTimeText} -to {endTimeText} \"{cutVideoPath}\" &exit";
+                comCommand = $"ffmpeg -i \"{videoPath}\" -vcodec copy -acodec copy -ss {startTimeText} -to {endTimeText} \"{cutVideoPath}\" &exit";
                 CmdHelper.CmdCommandV2(comCommand);
                 ShowTip($"开始裁剪 {startTimeText} - {endTimeText}");
             }
@@ -369,6 +370,12 @@ namespace VideoCutter
             {
                 VideoPlayTimeHelper.SaveVideoPlayTime(title, vlcControl.Time);
             }
+        }
+
+        private void 复制ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(comCommand);
+            MessageBox.Show("命令已复制!");
         }
     }
 }
